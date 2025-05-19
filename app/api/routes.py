@@ -27,3 +27,8 @@ async def summarize_article(article: Article):
         return Summary(summary=summary_lines)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) 
+    
+# ✅ 헬스체크 엔드포인트 추가, render 서버에서 주기적으로 서버가 살아있는지 검사한다. 
+@router.get("/health")
+def health_check():
+    return {"status": "ok"}
