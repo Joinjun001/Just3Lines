@@ -1,118 +1,116 @@
 # Just3Lines
 
-뉴스 기사를 3줄로 요약해주는 API 서비스입니다.
+뉴스 기사를 3줄로 요약해주는 FastAPI 기반의 AI 요약 서비스입니다.  
+[🔗 바로 사용해보기](https://just3lines.onrender.com)
 
-## 기능
+---
 
-- 뉴스 기사 텍스트를 3줄로 요약
-- 한국어/영어 지원
-- FastAPI 기반의 REST API
-- 웹 인터페이스 제공
+## 🧠 주요 기능
 
-## 기술 스택
+- 뉴스 기사 텍스트를 3줄로 요약 (한국어 / 영어 지원)
+- REST API 및 웹 UI 제공
+- OpenAI GPT-3.5 기반 요약 기능
+
+---
+
+## ⚙️ 기술 스택
 
 - Python 3.9+
 - FastAPI
-- OpenAI GPT-3.5
+- OpenAI GPT-3.5 (API)
 - Pydantic
-- Jinja2
-- pytest
+- Jinja2 (템플릿)
+- pytest (테스트)
+- Docker (배포)
 
-## 프로젝트 구조
+---
+
+## 📁 프로젝트 구조
 
 ```
 just3lines/
 ├── app/
-│   ├── __init__.py
-│   ├── main.py        # FastAPI 애플리케이션
-│   ├── api/
-│   │   ├── __init__.py
-│   │   └── routes.py  # API 엔드포인트
-│   ├── core/
-│   │   ├── __init__.py
-│   │   └── config.py  # 설정 관리
-│   └── services/
-│       ├── __init__.py
-│       └── openai_service.py  # OpenAI 통합
-├── tests/
-│   ├── __init__.py
-│   ├── conftest.py
-│   └── test_app.py
-├── static/
-├── templates/
-├── requirements.txt
+│   ├── main.py                 # FastAPI 애플리케이션 시작점
+│   ├── api/routes.py           # API 라우터
+│   ├── core/config.py          # 설정 및 환경변수
+│   └── services/openai_service.py  # OpenAI GPT 통합
+├── tests/                      # pytest 기반 테스트
+├── static/                     # 정적 파일 (필요 시 사용)
+├── templates/                  # HTML 템플릿
+├── requirements.txt            # 패키지 목록
 └── README.md
 ```
 
-## 설치 및 실행 방법
+---
 
-1. 저장소 클론
+## 🚀 실행 방법
+
+### 1. 저장소 클론
 
 ```bash
-git clone https://github.com/hanip-devops/Just3Lines.git
+git clone https://github.com/your-username/Just3Lines.git
 cd Just3Lines
 ```
 
-## 🔧 로컬 실행 방법 (uv를 사용한 방법, Docker로 실행하실 분들은 아래를 참고해주세요. 그리고 Docker 사용을 추천드립니다!!)
+---
 
-2. uv (파이썬 관리 툴 설치, 편하게 사용하기 위해 전역으로 설치하길 추천드립니다.)
+### 2. 로컬 실행 (uv 사용)
 
-# 맥
+[uv](https://github.com/astral-sh/uv)는 Python 환경 및 의존성 관리를 빠르게 해주는 최신 도구입니다.
 
+#### 📦 uv 설치
+
+```bash
+# macOS
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# 윈도우
-
+# Windows (PowerShell)
 powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
 
-3. 가상 환경 생성 및 패키지 설치
+#### ▶ 가상환경 생성 및 패키지 설치
 
 ```bash
 uv venv
 uv pip install -r requirements.txt
 ```
 
-4. 환경 변수 설정
-   `.env` 파일을 생성하고 OpenAI API 키를 설정합니다:
+#### 🔐 환경변수 설정
 
-.env :
+루트 디렉토리에 `.env` 파일을 생성 후 다음 내용을 작성하세요:
 
 ```
 OPENAI_API_KEY=your_api_key_here
 ```
 
-개발 서버 실행:
+#### ▶ 앱 실행
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-## 🐳 Docker 실행 방법
+접속:
 
-1. Docker 이미지 빌드
+- http://localhost:8000 (웹 인터페이스)
+- http://localhost:8000/docs (Swagger 문서)
+
+---
+
+### 3. Docker 실행 (선택 사항)
 
 ```bash
 docker build -t just3lines .
-```
-
-2. 컨테이너 실행 (로컬 포트 8000 사용)
-
-```bash
 docker run -p 8000:8000 --env-file .env just3lines
 ```
 
-서버가 실행되면 다음 URL에서 접근 가능합니다:
+---
 
-- API 문서: http://localhost:8000/docs
-- 웹 인터페이스: http://localhost:8000
+## 📡 API 사용 방법
 
-## API 사용 방법
+### ✨ 요약 API
 
-### 요약 API
-
-**엔드포인트:** `POST /summarize`
-
-**요청 본문:**
+- **엔드포인트:** `POST /summarize`
+- **요청 예시:**
 
 ```json
 {
@@ -121,7 +119,7 @@ docker run -p 8000:8000 --env-file .env just3lines
 }
 ```
 
-**응답:**
+- **응답 예시:**
 
 ```json
 {
@@ -129,14 +127,30 @@ docker run -p 8000:8000 --env-file .env just3lines
 }
 ```
 
-## 테스트
+---
 
-테스트 실행:
+## 🧪 테스트
 
 ```bash
 pytest tests/
 ```
 
-## 라이선스
+> OpenAI 호출은 mocking 되어 있으므로 실제 API 키 없이도 테스트가 가능합니다.
 
-MIT License
+---
+
+## 🌐 배포 주소
+
+프로젝트는 Render를 통해 배포되어 있습니다:
+
+🔗 https://just3lines.onrender.com
+
+- 웹 UI: `/`
+- API 문서: `/docs`
+
+---
+
+## 🪪 라이선스
+
+이 프로젝트는 [MIT License](LICENSE)를 따릅니다.  
+자유롭게 수정 및 사용하실 수 있습니다.
