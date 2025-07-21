@@ -1,0 +1,36 @@
+## DevOps Changes Summary for Just3Lines Project
+
+This document summarizes the key DevOps enhancements implemented in the Just3Lines project.
+
+### 1. CI/CD Pipeline Enhancements (via GitHub Actions)
+
+- **Strict Flake8 Linting**:
+  - Modified `.github/workflows/python-app.yml` to enforce stricter code style checks.
+  - The `flake8` command now respects the `.flake8` configuration file and fails the build on any style violations, ensuring consistent code quality.
+
+- **Automated Docker Image Build and Push**:
+  - Added a new job (`build-and-push-docker-image`) to `.github/workflows/python-app.yml`.
+  - This job automatically builds a Docker image of the application and pushes it to GitHub Container Registry (GHCR) upon pushes to the `main` branch.
+  - Images are tagged with `latest` and the commit SHA.
+
+- **Automated Security Analysis with Bandit**:
+  - Integrated `bandit` into the `lint` job in `.github/workflows/python-app.yml`.
+  - `bandit` now performs static analysis to detect potential security vulnerabilities in the Python codebase. The build fails if any critical issues are found.
+
+### 2. Local Development Environment Improvement
+
+- **Docker Compose Integration**:
+  - Created `docker-compose.yml` at the project root.
+  - This file simplifies local development by allowing the application to be run with a single command (`docker compose up --build`).
+  - It mounts the local source code into the container, enabling live reloading during development.
+
+### 3. Kubernetes Deployment Readiness
+
+- **Kubernetes Manifests**:
+  - Created a `kubernetes/` directory containing `deployment.yaml` and `service.yaml`.
+  - `deployment.yaml` defines the application's Pods and ReplicaSet, configured to pull the Docker image from GHCR and use a Kubernetes Secret for the OpenAI API key.
+  - `service.yaml` defines a LoadBalancer service to expose the application within the Kubernetes cluster.
+
+### Documentation Updates
+
+- `README.md` has been updated to reflect all the above changes, providing clear instructions and explanations for each new DevOps feature.
