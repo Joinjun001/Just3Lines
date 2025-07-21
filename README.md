@@ -112,6 +112,21 @@ uvicorn app.main:app --reload
 
 ### 3. Docker 실행 (선택 사항)
 
+#### Docker Compose 사용 (권장)
+
+로컬 개발 환경에서 Docker Compose를 사용하여 애플리케이션을 쉽게 실행할 수 있습니다. 코드 변경 시 자동으로 재시작됩니다.
+
+```bash
+docker compose up --build
+```
+
+접속:
+
+- http://localhost:8000 (웹 인터페이스)
+- http://localhost:8000/docs (Swagger 문서)
+
+#### Docker CLI 직접 사용
+
 ```bash
 docker build -t just3lines .
 docker run -p 8000:8000 --env-file .env just3lines
