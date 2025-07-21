@@ -134,6 +134,57 @@ docker run -p 8000:8000 --env-file .env just3lines
 
 ---
 
+### 4. Kubernetes 배포 (Minikube)
+
+로컬 Minikube 클러스터에 애플리케이션을 배포할 수 있습니다.
+
+#### 📦 Minikube 설치 및 시작
+
+Minikube 설치 및 시작 방법은 [Minikube 공식 문서](https://minikube.sigs.k8s.io/docs/start/)를 참조하세요.
+
+```bash
+minikube start
+```
+
+#### 🔐 OpenAI API Key Secret 생성
+
+Kubernetes Secret으로 OpenAI API 키를 저장합니다. `your_openai_api_key_here`를 실제 API 키로 변경하세요.
+
+```bash
+kubectl create secret generic openai-api-key --from-literal=OPENAI_API_KEY=your_openai_api_key_here
+```
+
+#### ▶ 이미지 빌드 및 Minikube 환경으로 로드
+
+CI/CD 파이프라인에서 빌드된 Docker 이미지를 사용하거나, 로컬에서 직접 빌드하여 Minikube 환경으로 로드할 수 있습니다.
+
+```bash
+# CI/CD에서 빌드된 GHCR 이미지 사용 (your-github-username을 본인의 GitHub 사용자 이름으로 변경)
+# kubectl set image deployment/just3lines-deployment just3lines=ghcr.io/your-github-username/just3lines:latest
+
+# 또는 로컬에서 빌드하여 Minikube 환경으로 로드
+eval $(minikube docker-env)
+docker build -t just3lines .
+minikube image load just3lines:latest
+```
+
+#### ▶ 애플리케이션 배포
+
+```bash
+kubectl apply -f kubernetes/deployment.yaml
+kubectl apply -f kubernetes/service.yaml
+```
+
+#### 🌐 서비스 접속
+
+서비스가 준비되면 다음 명령어로 URL을 확인할 수 있습니다.
+
+```bash
+minikube service just3lines-service --url
+```
+
+---
+
 ## 📡 API 사용 방법
 
 ### ✨ 요약 API

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: just3lines-deployment
+  labels:
+    app: just3lines
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: just3lines
+  template:
+    metadata:
+      labels:
+        app: just3lines
+    spec:
+      containers:
+      - name: just3lines
+        image: ghcr.io/your-github-username/just3lines:latest # GitHub Container Registry 이미지 경로로 변경하세요.
+        ports:
+        - containerPort: 8000
+        env:
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: openai-api-key
+              key: OPENAI_API_KEY
